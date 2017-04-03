@@ -1,0 +1,531 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+        href="https://github.com/rsms/node-imagemagick#readme"
+
+    >imagemagick (v0.1.3)</a>
+</h1>
+<h4>A wrapper around the imagemagick cli</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.imagemagick">module imagemagick</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.imagemagick.convert">
+            function <span class="apidocSignatureSpan">imagemagick.</span>convert
+            <span class="apidocSignatureSpan">(args, timeout, callback)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.imagemagick.crop">
+            function <span class="apidocSignatureSpan">imagemagick.</span>crop
+            <span class="apidocSignatureSpan">(options, callback)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.imagemagick.identify">
+            function <span class="apidocSignatureSpan">imagemagick.</span>identify
+            <span class="apidocSignatureSpan">(pathOrArgs, callback)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.imagemagick.readMetadata">
+            function <span class="apidocSignatureSpan">imagemagick.</span>readMetadata
+            <span class="apidocSignatureSpan">(path, callback)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.imagemagick.resize">
+            function <span class="apidocSignatureSpan">imagemagick.</span>resize
+            <span class="apidocSignatureSpan">(options, callback)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.imagemagick.resizeArgs">
+            function <span class="apidocSignatureSpan">imagemagick.</span>resizeArgs
+            <span class="apidocSignatureSpan">(options)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.imagemagick" id="apidoc.module.imagemagick">module imagemagick</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.imagemagick.convert" id="apidoc.element.imagemagick.convert">
+        function <span class="apidocSignatureSpan">imagemagick.</span>convert
+        <span class="apidocSignatureSpan">(args, timeout, callback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">convert = function (args, timeout, callback) {
+  var procopt = {encoding: &#x27;binary&#x27;};
+  if (typeof timeout === &#x27;function&#x27;) {
+    callback = timeout;
+    timeout = 0;
+  } else if (typeof timeout !== &#x27;number&#x27;) {
+    timeout = 0;
+  }
+  if (timeout &#x26;&#x26; (timeout = parseInt(timeout)) &#x3e; 0 &#x26;&#x26; !isNaN(timeout))
+    procopt.timeout = timeout;
+  return exec2(exports.convert.path, args, procopt, callback);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+### convert(args, callback(err, stdout, stderr))
+
+Raw interface to `convert` passing arguments in the array `args`.
+
+Example:
+
+```javascript
+im.<span class="apidocCodeKeywordSpan">convert</span>([&#x27;kittens.jpg&#x27;, &#x27;-resize&#x27;, &#x27;25x120&#x27;, &#x27;kittens
+-small.jpg&#x27;],
+function(err, stdout){
+  if (err) throw err;
+  console.log(&#x27;stdout:&#x27;, stdout);
+});
+```
+
+### resize(options, callback(err, stdout, stderr))
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.imagemagick.crop" id="apidoc.element.imagemagick.crop">
+        function <span class="apidocSignatureSpan">imagemagick.</span>crop
+        <span class="apidocSignatureSpan">(options, callback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">crop = function (options, callback) {
+  if (typeof options !== &#x27;object&#x27;)
+    throw new TypeError(&#x27;First argument must be an object&#x27;);
+  if (!options.srcPath &#x26;&#x26; !options.srcData)
+    throw new TypeError(&#x22;No srcPath or data defined&#x22;);
+  if (!options.height &#x26;&#x26; !options.width)
+    throw new TypeError(&#x22;No width or height defined&#x22;);
+
+  if (options.srcPath){
+    var args = options.srcPath;
+  } else {
+    var args = {
+      data: options.srcData
+    };
+  }
+
+  exports.identify(args, function(err, meta) {
+    if (err) return callback &#x26;&#x26; callback(err);
+    var t         = exports.resizeArgs(options),
+        ignoreArg = false,
+        printNext  = false,
+        args      = [];
+    t.args.forEach(function (arg) {
+      if (printNext === true){
+        console.log(&#x22;arg&#x22;, arg);
+        printNext = false;
+      }
+      // ignoreArg is set when resize flag was found
+      if (!ignoreArg &#x26;&#x26; (arg != &#x27;-resize&#x27;))
+        args.push(arg);
+      // found resize flag! ignore the next argument
+      if (arg == &#x27;-resize&#x27;){
+        console.log(&#x22;resize arg&#x22;);
+        ignoreArg = true;
+        printNext = true;
+      }
+      if (arg === &#x22;-crop&#x22;){
+        console.log(&#x22;crop arg&#x22;);
+        printNext = true;
+      }
+      // found the argument after the resize flag; ignore it and set crop options
+      if ((arg != &#x22;-resize&#x22;) &#x26;&#x26; ignoreArg) {
+        var dSrc      = meta.width / meta.height,
+            dDst      = t.opt.width / t.opt.height,
+            resizeTo  = (dSrc &#x3c; dDst) ? &#x27;&#x27;+t.opt.width+&#x27;x&#x27; : &#x27;x&#x27;+t.opt.height,
+            dGravity  = options.gravity ? options.gravity : &#x22;Center&#x22;;
+        args = args.concat([
+          &#x27;-resize&#x27;, resizeTo,
+          &#x27;-gravity&#x27;, dGravity,
+          &#x27;-crop&#x27;, &#x27;&#x27;+t.opt.width + &#x27;x&#x27; + t.opt.height + &#x27;+0+0&#x27;,
+          &#x27;+repage&#x27;
+        ]);
+        ignoreArg = false;
+      }
+    })
+
+    t.args = args;
+    resizeCall(t, callback);
+  })
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+### crop(options, callback) ###
+Convenience function for resizing and cropping an image. _crop_ uses the resize method, so _options_ and _callback_ are the same
+. _crop_ uses _options.srcPath_, so make sure you set it :) Using only _options.width_ or _options.height_ will create a square
+dimensioned image.  Gravity can also be specified, it defaults to Center.   Available gravity options are [NorthWest, North, NorthEast
+, West, Center, East, SouthWest, South, SouthEast]
+
+Example:
+
+```javascript
+im.<span class="apidocCodeKeywordSpan">crop</span>({
+  srcPath: path,
+  dstPath: &#x27;cropped.jpg&#x27;,
+  width: 800,
+  height: 600,
+  quality: 1,
+  gravity: &#x22;North&#x22;
+}, function(err, stdout, stderr){
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.imagemagick.identify" id="apidoc.element.imagemagick.identify">
+        function <span class="apidocSignatureSpan">imagemagick.</span>identify
+        <span class="apidocSignatureSpan">(pathOrArgs, callback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">identify = function (pathOrArgs, callback) {
+  var isCustom = Array.isArray(pathOrArgs),
+      isData,
+      args = isCustom ? ([]).concat(pathOrArgs) : [&#x27;-verbose&#x27;, pathOrArgs];
+
+  if (typeof args[args.length-1] === &#x27;object&#x27;) {
+    isData = true;
+    pathOrArgs = args[args.length-1];
+    args[args.length-1] = &#x27;-&#x27;;
+    if (!pathOrArgs.data)
+      throw new Error(&#x27;first argument is missing the &#x22;data&#x22; member&#x27;);
+  } else if (typeof pathOrArgs === &#x27;function&#x27;) {
+    args[args.length-1] = &#x27;-&#x27;;
+    callback = pathOrArgs;
+  }
+  var proc = exec2(exports.identify.path, args, {timeout:120000}, function(err, stdout, stderr) {
+    var result, geometry;
+    if (!err) {
+      if (isCustom) {
+        result = stdout;
+      } else {
+        result = parseIdentify(stdout);
+        geometry = result[&#x27;geometry&#x27;].split(/x/);
+
+        result.format = result.format.match(/\S*/)[0]
+        result.width = parseInt(geometry[0]);
+        result.height = parseInt(geometry[1]);
+        result.depth = parseInt(result.depth);
+        if (result.quality !== undefined) result.quality = parseInt(result.quality) / 100;
+      }
+    }
+    callback(err, result);
+  });
+  if (isData) {
+    if (&#x27;string&#x27; === typeof pathOrArgs.data) {
+      proc.stdin.setEncoding(&#x27;binary&#x27;);
+      proc.stdin.write(pathOrArgs.data, &#x27;binary&#x27;);
+      proc.stdin.end();
+    } else {
+      proc.stdin.end(pathOrArgs.data);
+    }
+  }
+  return proc;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+### identify(path, callback(err, features))
+
+Identify file at `path` and return an object `features`.
+
+Example:
+
+```javascript
+im.<span class="apidocCodeKeywordSpan">identify</span>(&#x27;kittens.jpg&#x27;, function(err, features){
+  if (err) throw err;
+  console.log(features);
+  // { format: &#x27;JPEG&#x27;, width: 3904, height: 2622, depth: 8 }
+});
+```
+
+### identify(args, callback(err, output))
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.imagemagick.readMetadata" id="apidoc.element.imagemagick.readMetadata">
+        function <span class="apidocSignatureSpan">imagemagick.</span>readMetadata
+        <span class="apidocSignatureSpan">(path, callback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">readMetadata = function (path, callback) {
+  return exports.identify([&#x27;-format&#x27;, &#x27;%[EXIF:*]&#x27;, path], function(err, stdout) {
+    var meta = {};
+    if (!err) {
+      stdout.split(/\n/).forEach(function(line){
+        var eq_p = line.indexOf(&#x27;=&#x27;);
+        if (eq_p === -1) return;
+        var key = line.substr(0, eq_p).replace(&#x27;/&#x27;,&#x27;-&#x27;),
+            value = line.substr(eq_p+1).trim(),
+            typekey = &#x27;default&#x27;;
+        var p = key.indexOf(&#x27;:&#x27;);
+        if (p !== -1) {
+          typekey = key.substr(0, p);
+          key = key.substr(p+1);
+          if (typekey === &#x27;exif&#x27;) {
+            key = exifKeyName(key);
+            var converter = exifFieldConverters[key];
+            if (converter) value = converter(value);
+          }
+        }
+        if (!(typekey in meta)) meta[typekey] = {key:value};
+        else meta[typekey][key] = value;
+      })
+    }
+    callback(err, meta);
+  });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+Requires imagemagick CLI tools to be installed. There are numerous ways to install them. For instance, if you&#x27;re on OS X you
+ can use [Homebrew](http://mxcl.github.com/homebrew/): `brew install imagemagick`.
+
+## Example
+
+```javascript
+var im = require(&#x27;imagemagick&#x27;);
+im.<span class="apidocCodeKeywordSpan">readMetadata</span>(&#x27;kittens.jpg&#x27;, function(err, metadata){
+  if (err) throw err;
+  console.log(&#x27;Shot at &#x27;+metadata.exif.dateTimeOriginal);
+})
+// -&#x3e; Shot at Tue, 06 Feb 2007 21:13:54 GMT
+```
+
+## API
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.imagemagick.resize" id="apidoc.element.imagemagick.resize">
+        function <span class="apidocSignatureSpan">imagemagick.</span>resize
+        <span class="apidocSignatureSpan">(options, callback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">resize = function (options, callback) {
+  var t = exports.resizeArgs(options);
+  return resizeCall(t, callback)
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+```
+
+srcPath, dstPath and (at least one of) width and height are required. The rest is optional.
+
+Example:
+
+```javascript
+im.<span class="apidocCodeKeywordSpan">resize</span>({
+  srcPath: &#x27;kittens.jpg&#x27;,
+  dstPath: &#x27;kittens-small.jpg&#x27;,
+  width:   256
+}, function(err, stdout, stderr){
+  if (err) throw err;
+  console.log(&#x27;resized kittens.jpg to fit within 256x256px&#x27;);
+});
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.imagemagick.resizeArgs" id="apidoc.element.imagemagick.resizeArgs">
+        function <span class="apidocSignatureSpan">imagemagick.</span>resizeArgs
+        <span class="apidocSignatureSpan">(options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">resizeArgs = function (options) {
+  var opt = {
+    srcPath: null,
+    srcData: null,
+    srcFormat: null,
+    dstPath: null,
+    quality: 0.8,
+    format: &#x27;jpg&#x27;,
+    progressive: false,
+    colorspace: null,
+    width: 0,
+    height: 0,
+    strip: true,
+    filter: &#x27;Lagrange&#x27;,
+    sharpening: 0.2,
+    customArgs: [],
+    timeout: 0
+  }
+
+  // check options
+  if (typeof options !== &#x27;object&#x27;)
+    throw new Error(&#x27;first argument must be an object&#x27;);
+  for (var k in opt) if (k in options) opt[k] = options[k];
+  if (!opt.srcPath &#x26;&#x26; !opt.srcData)
+    throw new Error(&#x27;both srcPath and srcData are empty&#x27;);
+
+  // normalize options
+  if (!opt.format) opt.format = &#x27;jpg&#x27;;
+  if (!opt.srcPath) {
+    opt.srcPath = (opt.srcFormat ? opt.srcFormat +&#x27;:-&#x27; : &#x27;-&#x27;); // stdin
+  }
+  if (!opt.dstPath)
+    opt.dstPath = (opt.format ? opt.format+&#x27;:-&#x27; : &#x27;-&#x27;); // stdout
+  if (opt.width === 0 &#x26;&#x26; opt.height === 0)
+    throw new Error(&#x27;both width and height can not be 0 (zero)&#x27;);
+
+  // build args
+  var args = [opt.srcPath];
+  if (opt.sharpening &#x3e; 0) {
+    args = args.concat([
+      &#x27;-set&#x27;, &#x27;option:filter:blur&#x27;, String(1.0-opt.sharpening)]);
+  }
+  if (opt.filter) {
+    args.push(&#x27;-filter&#x27;);
+    args.push(opt.filter);
+  }
+  if (opt.strip) {
+    args.push(&#x27;-strip&#x27;);
+  }
+  if (opt.width || opt.height) {
+    args.push(&#x27;-resize&#x27;);
+    if (opt.height === 0) args.push(String(opt.width));
+    else if (opt.width === 0) args.push(&#x27;x&#x27;+String(opt.height));
+    else args.push(String(opt.width)+&#x27;x&#x27;+String(opt.height));
+  }
+  opt.format = opt.format.toLowerCase();
+  var isJPEG = (opt.format === &#x27;jpg&#x27; || opt.format === &#x27;jpeg&#x27;);
+  if (isJPEG &#x26;&#x26; opt.progressive) {
+    args.push(&#x27;-interlace&#x27;);
+    args.push(&#x27;plane&#x27;);
+  }
+  if (isJPEG || opt.format === &#x27;png&#x27;) {
+    args.push(&#x27;-quality&#x27;);
+    args.push(Math.round(opt.quality * 100.0).toString());
+  }
+  else if (opt.format === &#x27;miff&#x27; || opt.format === &#x27;mif&#x27;) {
+    args.push(&#x27;-quality&#x27;);
+    args.push(Math.round(opt.quality * 9.0).toString());
+  }
+  if (opt.colorspace) {
+    args.push(&#x27;-colorspace&#x27;);
+    args.push(opt.colorspace);
+  }
+  if (Array.isArray(opt.customArgs) &#x26;&#x26; opt.customArgs.length)
+    args = args.concat(opt.customArgs);
+  args.push(opt.dstPath);
+
+  return {opt:opt, args:args};
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+    proc.stdin.end(t.opt.srcData);
+  }
+}
+return proc;
+}
+
+exports.resize = function(options, callback) {
+var t = exports.<span class="apidocCodeKeywordSpan">resizeArgs</span>(options);
+return resizeCall(t, callback)
+}
+
+exports.crop = function (options, callback) {
+if (typeof options !== &#x27;object&#x27;)
+  throw new TypeError(&#x27;First argument must be an object&#x27;);
+if (!options.srcPath &#x26;&#x26; !options.srcData)
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
