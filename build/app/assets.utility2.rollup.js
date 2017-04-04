@@ -12012,7 +12012,7 @@ header: '\
 [![NPM](https://nodei.co/npm/{{env.npm_package_name}}.png?downloads=true)](https://www.npmjs.com/package/{{env.npm_package_name}}) \
 \n\
 \n\
-[![apidoc](https://npmdoc.github.io/node-npmdoc-{{env.npm_package_name}}/build/screenCapture.buildNpmdoc.browser._2Fhome_2Ftravis_2Fbuild_2Fnpmdoc_2Fnode-npmdoc-{{env.npm_package_name}}_2Ftmp_2Fbuild_2Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-{{env.npm_package_name}}/build..beta..travis-ci.org/apidoc.html) \
+[![apidoc](https://npmdoc.github.io/node-npmdoc-{{env.npm_package_name}}/build/screenCapture.buildNpmdoc.browser._2Fhome_2Ftravis_2Fbuild_2Fnpmdoc_2Fnode-npmdoc-{{env.npm_package_name}}_2Ftmp_2Fbuild_2Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-{{env.npm_package_name}}/build/apidoc.html) \
 \n\
 \n\
 ![npmPackageListing](https://npmdoc.github.io/node-npmdoc-{{env.npm_package_name}}/build/screenCapture.npmPackageListing.svg) \
@@ -12308,7 +12308,12 @@ header: '\
                         }, function (error, data) {
                             // validate no error occurred
                             local.assert(!error, error);
-                            local.objectSetOverride(dbRow, JSON.parse(data.responseText));
+                            data = JSON.parse(data.responseText);
+                            Object.keys(data).forEach(function (key) {
+                                if (data[key] !== null) {
+                                    dbRow[key] = data[key];
+                                }
+                            });
                             // ignore extraneous data to save space
                             dbRow.description = null;
                             dbRow.last_build_duration = null;
@@ -13432,8 +13437,8 @@ header: '\
             ii = -1;
             onParallel.ii = -1;
             onParallel.remaining = options.list.length;
-            options.rateLimit = Number(options.rateLimit) || 8;
-            options.rateLimit = Math.max(options.rateLimit, 2);
+            options.rateLimit = Number(options.rateLimit) || 4;
+            options.rateLimit = Math.max(options.rateLimit, 3);
             options.retryLimit = Number(options.retryLimit) || 2;
             onEach2();
             onParallel();
