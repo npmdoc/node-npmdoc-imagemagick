@@ -3,7 +3,7 @@
 
 [![NPM](https://nodei.co/npm/imagemagick.png?downloads=true)](https://www.npmjs.com/package/imagemagick)
 
-[![apidoc](https://npmdoc.github.io/node-npmdoc-imagemagick/build/screenCapture.buildNpmdoc.browser._2Fhome_2Ftravis_2Fbuild_2Fnpmdoc_2Fnode-npmdoc-imagemagick_2Ftmp_2Fbuild_2Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-imagemagick/build..beta..travis-ci.org/apidoc.html)
+[![apidoc](https://npmdoc.github.io/node-npmdoc-imagemagick/build/screenCapture.buildNpmdoc.browser._2Fhome_2Ftravis_2Fbuild_2Fnpmdoc_2Fnode-npmdoc-imagemagick_2Ftmp_2Fbuild_2Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-imagemagick/build/apidoc.html)
 
 ![npmPackageListing](https://npmdoc.github.io/node-npmdoc-imagemagick/build/screenCapture.npmPackageListing.svg)
 
